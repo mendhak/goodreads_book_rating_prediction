@@ -13,6 +13,7 @@ wget https://datascience.quantecon.org/assets/data/goodreads_ratings.csv.zip
 unzip goodreads_ratings.csv.zip -d goodreads_ratings/
 # misnamed for some reason
 mv goodreads_ratings/goodreads_ratings.csv.zip goodreads_ratings/goodreads_ratings.csv
+wget https://datascience.quantecon.org/assets/data/goodreads_books.csv -O ./goodreads_ratings/goodreads_books.csv
 ```
 
 uv run generate_collaborative_model.py
