@@ -2,7 +2,7 @@ import joblib
 import pandas as pd
 
 # Load the saved model and encoders
-model_data = joblib.load('goodreads_model.joblib')
+model_data = joblib.load('goodreads_model_2.joblib')
 random_forest_model = model_data['model']
 author_encoder = model_data['author_encoder']
 mlb = model_data['genre_encoder']
@@ -43,24 +43,44 @@ def predict_book_rating(title, author, year_published, num_pages, genres):
         'Used Genres': known_genres
     }
 
-# Example usage
-test_book = {
-    'title': 'Project Hail Mary',
-    'author': 'Andy Weir',
-    'year': 2021,
-    'pages': 496,
-    'genres': ['science-fiction', 'fiction', 'dystopian']
-}
+# # Example usage
+# test_book = {
+#     'title': 'Project Hail Mary',
+#     'author': 'Andy Weir',
+#     'year': 2021,
+#     'pages': 496,
+#     'genres': ['science-fiction', 'fiction', 'dystopian']
+# }
 
-result = predict_book_rating(
-    test_book['title'],
-    test_book['author'],
-    test_book['year'],
-    test_book['pages'],
-    test_book['genres']
-)
+# result = predict_book_rating(
+#     test_book['title'],
+#     test_book['author'],
+#     test_book['year'],
+#     test_book['pages'],
+#     test_book['genres']
+# )
 
-print(f"\n{result['Title']}:")
-print(f"Predicted Rating: {result['Predicted Rating']:.2f}")
-print(f"Recommendation: {result['Rating Sentence']}")
-print(f"Genres used: {result['Used Genres']}")
+# print(f"\n{result['Title']}:")
+# print(f"Predicted Rating: {result['Predicted Rating']:.2f}")
+# print(f"Recommendation: {result['Rating Sentence']}")
+# print(f"Genres used: {result['Used Genres']}")
+
+if __name__ == "__main__":
+    # Read values from args passed in
+    import sys
+    if len(sys.argv) < 5:
+        print("Usage: python predict_rating.py <title> <author> <year_published> <num_pages> <genres>")
+        print("Example: python predict_rating.py 'Book Title' 'James Jameson' 2021 300 'fiction, science-fiction'")
+        sys.exit(1)
+
+    title = sys.argv[1]
+    author = sys.argv[2]
+    year_published = int(sys.argv[3])
+    num_pages = int(sys.argv[4])
+    genres = sys.argv[5].split(', ') if len(sys.argv) > 5 else []
+    result = predict_book_rating(title, author, year_published, num_pages, genres)
+    print(f"\n{result['Title']}:")
+    print(f"Predicted Rating: {result['Predicted Rating']:.2f}")
+    print(f"Recommendation: {result['Rating Sentence']}")
+    print(f"Genres used: {result['Used Genres']}")  
+
